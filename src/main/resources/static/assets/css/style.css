@@ -1,0 +1,11 @@
+* {
+    font-family: Roboto, sans-serif;
+}
+
+.small-text {
+    font-size: 0.8em;
+}
+
+.color-correct {
+    color: green;
+}
