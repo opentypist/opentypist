@@ -14,6 +14,10 @@ public class Quote {
 
     private String quote;
 
+    public Quote(String quote) {
+        this.quote = quote;
+    }
+
     public Integer getId() {
         return id;
     }
@@ -29,5 +33,4 @@ public class Quote {
     public void setQuote(String quote) {
         this.quote = quote;
     }
-
 }
