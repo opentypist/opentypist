@@ -17,7 +17,12 @@
         <div class="h3 m-0"><i class="fas fa-keyboard"></i> opentypist</div>
     </header>
     <main class="bg-light container-fluid vh-100 d-flex align-items-center justify-content-center">
-        <div class="w-50">
+        <div id="load-container" class="w-50 d-flex justify-content-center">
+            <div class="spinner-border text-secondary" role="status">
+                <span class="sr-only">Loading...</span>
+              </div>
+        </div>
+        <div id="typer-container" class="w-50 d-none">
             <div id="challenge" class="mb-3"></div>
             <input type="text" class="w-100" id="typer" autofocus>
             <div id="stats" class="mt-2 text-muted text-center small-text">0 wpm</div>

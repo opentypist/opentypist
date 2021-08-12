@@ -1,5 +1,5 @@
-let challengeText = "If you feel like there's something out there that you're supposed to be doing, if you have a passion for it, then stop wishing and just do it.";
-let challengeWords = challengeText.split(" ");
+let challengeText = null;
+let challengeWords = null;
 
 function highlightWordUpTo(index) {
     let text = "";
@@ -18,10 +18,7 @@ function updateWordsPerMinute(startTime, wordsTyped) {
     $('#stats').text(wpm + " wpm");
 }
 
-$(document).ready(() => {
-    // setup challenge text
-    $('#challenge').text(challengeText);
-
+function setupTyper() {
     let wordIndex = 0;
     let startTime = -1;
 
@@ -40,5 +37,19 @@ $(document).ready(() => {
                 highlightWordUpTo(wordIndex);
             }
         }
+    });
+
+    $('#load-container').addClass('d-none');
+    $('#typer-container').removeClass('d-none');
+}
+
+$(document).ready(() => {
+    $.get("api/random", data => {
+        console.log(data.quote);
+        challengeText = data.quote;
+        $('#challenge').text(challengeText);
+        challengeWords = challengeText.split(" ");
+        
+        setupTyper();
     });
 });
