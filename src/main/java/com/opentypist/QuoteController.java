@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Description;
 import org.springframework.context.support.ResourceBundleMessageSource;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -14,18 +15,17 @@ import org.thymeleaf.templateresolver.ClassLoaderTemplateResolver;
 
 import java.util.Optional;
 
-@Controller
+@RestController
+@RequestMapping("api")
 public class QuoteController {
 
     @Autowired
     private QuoteRepository quoteRepository;
 
     @PostMapping(path="/add")
-    public @ResponseBody String addNewUser(@RequestParam String quote) {
-
-        Quote q = new Quote();
-        q.setQuote(quote);
-        quoteRepository.save(q);
+    public @ResponseBody String addQuote(@RequestParam String quoteText) {
+        Quote quote = new Quote(quoteText);
+        quoteRepository.save(quote);
         return "Saved :)";
     }
 
@@ -34,61 +34,11 @@ public class QuoteController {
         return quoteRepository.findAll();
     }
 
-    @RequestMapping(path="/")
-    public ModelAndView index() {
-
+    @RequestMapping(path="/random")
+    public ResponseEntity<Quote> random() {
         long totalQuotes = quoteRepository.count();
-        Optional<Quote> q = quoteRepository.findById((int)(Math.random() * totalQuotes) + 1);
-
-        ModelAndView mav = new ModelAndView();
-        mav.addObject("randomQuote", q.get());
-        mav.setViewName("index");
-        return mav;
+        int targetQuoteId = (int)(Math.random() * totalQuotes) + 1;
+        Optional<Quote> quote = quoteRepository.findById(targetQuoteId);
+        return ResponseEntity.of(quote);
     }
-
-    @Bean
-    @Description("Thymeleaf template resolver serving HTML 5")
-    public ClassLoaderTemplateResolver templateResolver() {
-
-        ClassLoaderTemplateResolver templateResolver = new ClassLoaderTemplateResolver();
-
-        templateResolver.setPrefix("static/");
-        templateResolver.setCacheable(false);
-        templateResolver.setSuffix(".html");
-        templateResolver.setTemplateMode("HTML5");
-        templateResolver.setCharacterEncoding("UTF-8");
-
-        return templateResolver;
-    }
-
-    @Bean
-    @Description("Thymeleaf template engine with Spring integration")
-    public SpringTemplateEngine templateEngine() {
-
-        SpringTemplateEngine templateEngine = new SpringTemplateEngine();
-        templateEngine.setTemplateResolver(templateResolver());
-
-        return templateEngine;
-    }
-
-    @Bean
-    @Description("Thymeleaf view resolver")
-    public ViewResolver viewResolver() {
-
-        ThymeleafViewResolver viewResolver = new ThymeleafViewResolver();
-
-        viewResolver.setTemplateEngine(templateEngine());
-        viewResolver.setCharacterEncoding("UTF-8");
-
-        return viewResolver;
-    }
-
-    @Bean
-    @Description("Spring Message Resolver")
-    public ResourceBundleMessageSource messageSource() {
-        ResourceBundleMessageSource messageSource = new ResourceBundleMessageSource();
-        messageSource.setBasename("messages");
-        return messageSource;
-    }
-
 }
