@@ -1,9 +1,6 @@
 package com.opentypist;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 public class Quote {
@@ -12,6 +9,7 @@ public class Quote {
     @GeneratedValue(strategy=GenerationType.AUTO)
     private Integer id;
 
+    @Column(length = 1337)
     private String quote;
 
     public Quote() {}
