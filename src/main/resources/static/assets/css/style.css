@@ -17,4 +17,7 @@
 #challenge {
     font-size: 1.5em;
     font-weight: bold;
+    background-color: #DDD;
+    padding: 0.75em;
+    border-radius: 5px;
 }
