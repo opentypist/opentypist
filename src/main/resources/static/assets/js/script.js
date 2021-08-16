@@ -12,7 +12,7 @@ function highlightWordUpTo(characterIndex) {
 function updateWordsPerMinute(startTime, wordsTyped) {
     let millis = new Date().getTime() - startTime;
     let wpm = Math.floor(wordsTyped / (millis / (60 * 1000)));
-    $('#stats').text(wpm + " wpm");
+    $('.stats').text(wpm + " wpm");
 }
 
 function setupTyper() {
@@ -48,6 +48,12 @@ function setupTyper() {
         // figure out if the word we are typing has an error
         let currentWord = challengeWords[wordIndex];
         $("#debug").text(currentWord);
+
+        if (currentWord == typer.val() && wordIndex == (challengeWords.length - 1)) {
+            displayResults();
+            return;
+        }
+
         let currentWordHasError = currentWord.substring(0, typer.val().length) != typer.val();
         if (currentWordHasError) {
             typer.addClass("color-incorrect");
@@ -56,18 +62,37 @@ function setupTyper() {
             highlightWordUpTo(characterIndex);
         }
     });
-
-    $('#load-container').addClass('d-none');
-    $('#typer-container').removeClass('d-none');
 }
 
-$(document).ready(() => {
-    $.get("api/random", data => {
+function loadQuote() {
+    return $.get("api/random", data => {
+        data.quote = "test";
+
         console.log(data.quote);
         challengeText = data.quote;
         $('#challenge').text(challengeText);
         challengeWords = challengeText.split(" ");
 
+        $('#load-container').addClass('d-none');
+        $('#typer-container').removeClass('d-none');
+    });
+}
+
+function displayResults() {
+    $('#modal-button').click();
+}
+
+$(document).ready(() => {
+    loadQuote().done(() => {
         setupTyper();
+    });
+
+    $("#retry-button").on("click", evt => {
+        $('#load-container').removeClass('d-none');
+        $('#typer-container').addClass('d-none');
+
+        characterIndex = 0;
+
+        loadQuote();
     });
 });
