@@ -37,71 +37,6 @@ function setWPM(wpm) {
 
 function setupTyper() {
 
-    /*
-    typer.keypress( function(e) {
-
-        if (startTime === -1) {
-            startTime = new Date().getTime();
-            console.log("Start time set!");
-        }
-    
-        if ((charTyped + 1) === challengeText.length) {
-            clearInterval(wpmInterval);
-            updateWordsPerMinute(); // One last time to reflect final score
-        }
-    
-        let typedChar = String.fromCharCode(e.which);
-
-        if(typedChar === challengeText.charAt(charIndex)) {
-
-            console.log('typed correctly: ' + typedChar);
-    
-            let challengeElement = $('#challenge');
-            let frontSpan = '<span class="color-correct">';
-            let correctText = challengeText.substring(0, charIndex + 1);
-            let backSpan = '</span>';
-            let remainingText = challengeText.substring(charIndex + 1);
-    
-            let totalString = frontSpan + correctText + backSpan + remainingText;
-    
-            console.log('Typer val: ' + typer.val() + typedChar);
-            // console.log('Pure Javascript: ' + document.getElementById("typer").value);
-            console.log('Typer val length: ' + typer.val().length);
-            console.log('Challenge word compared: ' + challengeWords[numWordsTyped].substring(0, typer.val().length + 1));
-
-            if((typer.val() + typedChar) === challengeWords[numWordsTyped].substring(0, typer.val().length + 1) 
-                || (typer.val() + typedChar) === (challengeWords[numWordsTyped].substring(0, typer.val().length + 1) + ' ')) { // only update correct letters if no extra characters in between
-                challengeElement.html(totalString);
-
-                if(typedChar === ' ') {
-                    typer.val("");
-                    numWordsTyped++;
-                }
-    
-                charIndex++;
-                charTyped++;
-            }
-    
-        } else {
-            // Incorrect char, add red coloring to it.
-            incorrectTyped = true;
-
-            let challengeElement = $('#challenge');
-            let frontSpan = '<span class="color-correct">';
-            let correctText = challengeText.substring(0, charIndex);
-            let backSpan = '</span>';
-            let frontWrongSpan = '<span class="color-incorrect">';
-            let wrongLetter = challengeText.charAt(charIndex);
-            let backWrongSpan = '</span>';
-            let remainingText = challengeText.substring(charIndex + 1);
-    
-            let totalString = frontSpan + correctText + backSpan + frontWrongSpan + wrongLetter + backWrongSpan + remainingText;
-
-            challengeElement.html(totalString);
-        }
-    
-    });
-    */
     console.log("Now using 'input' :)");
     typer.on('input', function(e) {
 
@@ -114,12 +49,21 @@ function setupTyper() {
             clearInterval(wpmInterval);
             updateWordsPerMinute(); // One last time to reflect final score
         }
-    
+
+        console.log(e.originalEvent.inputType === "deleteContentBackward");
         console.log('Letter??? ' + e.originalEvent.data);
 
         let typedChar = e.originalEvent.data;
 
-        if(typedChar === challengeText.charAt(charIndex)) {
+        let backspace = e.originalEvent.inputType === "deleteContentBackward" ? true : false;
+        console.log("Got backspace: " + backspace);
+
+        if(backspace) {
+            charTyped--;
+            charIndex--;
+        }
+
+        if(typedChar === challengeText.charAt(charIndex) || backspace) {
 
             console.log('typed correctly: ' + typedChar);
     
@@ -156,6 +100,23 @@ function setupTyper() {
                 }
             }
     
+        } else if(e.originalEvent.inputType === "deleteContentBackward") { // Pressing backspace
+            console.log("removing character");
+
+            // Wait to update colors until all random shit is removed
+
+            // Compare input text to word, then update charTyped
+
+            // if incorrectTyped character then charTyped + 1
+
+
+
+            // typer.val() // input value
+
+            // challengeWords[numWordsTyped] //
+
+            // Text should be updated to only show green up to charTyped
+
         } else {
             // Incorrect char, add red coloring to it.
             incorrectTyped = true;
