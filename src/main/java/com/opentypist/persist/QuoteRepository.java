@@ -1,4 +1,4 @@
-package com.opentypist;
+package com.opentypist.persist;
 
 import org.springframework.data.repository.CrudRepository;
 
