@@ -58,3 +58,7 @@
 header {
     box-shadow: 0 15px 20px rgba(0,0,0,0.19);
 }
+
+#typer-container {
+    max-width: 600px;
+}
