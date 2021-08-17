@@ -49,18 +49,17 @@ function setupTyper() {
         let currentWord = challengeWords[wordIndex];
         $("#debug").text(currentWord);
 
-        if (currentWord == typer.val() && wordIndex == (challengeWords.length - 1)) {
-            displayResults();
-            return;
-        }
-
-        let currentWordHasError = currentWord.substring(0, typer.val().length) != typer.val();
+        let quoteCompleted = currentWord == typer.val() && wordIndex == (challengeWords.length - 1);
+        let currentWordHasError = quoteCompleted ? false : currentWord.substring(0, typer.val().length) != typer.val();
         if (currentWordHasError) {
             typer.addClass("color-incorrect");
         } else {
             typer.removeClass("color-incorrect");
             highlightWordUpTo(characterIndex);
         }
+
+        if (quoteCompleted)
+            displayResults();
     });
 }
 
@@ -79,20 +78,30 @@ function loadQuote() {
 }
 
 function displayResults() {
-    $('#modal-button').click();
+    $('#typer').val("");
+    $('#typer').prop("disabled", true);
+    $('#retry-container').toggle(1200);
+    $('#challenge').fadeTo(1200, 0.2);
 }
 
 $(document).ready(() => {
+    $('#typer').focus();
+
     loadQuote().done(() => {
         setupTyper();
     });
 
-    $("#retry-button").on("click", evt => {
+    $("#retry").on("click", evt => {
         $('#load-container').removeClass('d-none');
         $('#typer-container').addClass('d-none');
 
         characterIndex = 0;
 
         loadQuote();
+
+        $('#retry-container').toggle();
+        $('#challenge').fadeTo(0, 1.0);
+        $('#typer').prop("disabled", false);
+        $('#typer').focus();
     });
 });
