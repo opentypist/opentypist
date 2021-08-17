@@ -45,6 +45,13 @@ function setupTyper() {
             }
         }
 
+        // Last word typed and "space" pressed
+        if(wordIndex === challengeWords.length) {
+            $('#retry-container').toggle(1200);
+            $('#challenge').fadeTo(1200, 0.2);
+            return;
+        }
+
         // figure out if the word we are typing has an error
         let currentWord = challengeWords[wordIndex];
         $("#debug").text(currentWord);
@@ -59,6 +66,8 @@ function setupTyper() {
 
     $('#load-container').addClass('d-none');
     $('#typer-container').removeClass('d-none');
+
+    typer.focus();
 }
 
 $(document).ready(() => {
@@ -67,6 +76,14 @@ $(document).ready(() => {
         challengeText = data.quote;
         $('#challenge').text(challengeText);
         challengeWords = challengeText.split(" ");
+
+        // TEST STRING
+
+        /*let testString = 'hello goodbye.';
+        challengeText = testString;
+        $('#challenge').text(testString);
+        challengeWords = testString.split(" ");
+        console.log(testString);*/
 
         setupTyper();
     });

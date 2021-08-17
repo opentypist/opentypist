@@ -17,7 +17,48 @@
 #challenge {
     font-size: 1.25em;
     font-weight: bold;
-    background-color: #DDD;
+
     padding: 0.75em;
     border-radius: 5px;
+
+}
+
+#typer-container {
+    box-shadow: 0 10px 20px rgba(0,0,0,0.19);
+    padding: 2%;
+    background-color: rgba(0,0,0,0.05);
+
+    position: relative;
+    border-radius: 16px;
+}
+
+
+#retry-container {
+    /* background-color: blue; */
+    display: none;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+
+#inner-retry-container {
+
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+}
+
+#retry {
+    margin: 0 auto 8% 1%;
+}
+
+#share {
+    margin: 0 1% 8% auto;
+}
+
+header {
+    box-shadow: 0 15px 20px rgba(0,0,0,0.19);
 }
