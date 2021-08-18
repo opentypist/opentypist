@@ -65,7 +65,6 @@ function setupTyper() {
 
 function loadQuote() {
     return $.get("api/random", data => {
-        data.quote = "test";
 
         console.log(data.quote);
         challengeText = data.quote;
@@ -74,6 +73,7 @@ function loadQuote() {
 
         $('#load-container').addClass('d-none');
         $('#typer-container').removeClass('d-none');
+        $('#typer').focus();
     });
 }
 
@@ -85,7 +85,6 @@ function displayResults() {
 }
 
 $(document).ready(() => {
-    $('#typer').focus();
 
     loadQuote().done(() => {
         setupTyper();
@@ -102,6 +101,5 @@ $(document).ready(() => {
         $('#retry-container').toggle();
         $('#challenge').fadeTo(0, 1.0);
         $('#typer').prop("disabled", false);
-        $('#typer').focus();
     });
 });
