@@ -4,23 +4,24 @@ let characterIndex = 0;
 let startTime = -1;
 let wordIndex = 0;
 
+let wpm = 0;
+let wpmIntervalHandler = null;
+
+
 function highlightWordUpTo(characterIndex) {
     let correctText = `<span class="color-correct">` + challengeText.substring(0, characterIndex) + `</span>`
     let restText = challengeText.substring(characterIndex, challengeText.length);
     $('#challenge').html(correctText + restText);
 }
 
-function updateWordsPerMinute(startTime, charTyped) {
+function updateWordsPerMinute() {
     let millis = new Date().getTime() - startTime;
     // Average of 5 characters per word
-    let wordsTyped = charTyped / 5;
+    let wordsTyped = characterIndex / 5;
     let timePassed = millis / (60 * 1000);
-    let wpm = 0;
     if(timePassed > 0)
         wpm = Math.floor(wordsTyped / (millis / (60 * 1000)));
     $('#stats').text(wpm + " wpm");
-
-    return wpm;
 }
 
 function setupTyper() {
@@ -30,7 +31,9 @@ function setupTyper() {
         if (startTime == -1)
             startTime = new Date().getTime();
 
-        let typingSpeed = updateWordsPerMinute(startTime, characterIndex);
+        // Start wpm interval to update every 100ms
+        if(wpmIntervalHandler == null)
+            wpmIntervalHandler = window.setInterval(updateWordsPerMinute, 100);
 
         // handle backspace
         if (event.originalEvent.inputType === 'deleteContentBackward') {
@@ -61,7 +64,7 @@ function setupTyper() {
         }
 
         if (quoteCompleted)
-            displayResults(typingSpeed);
+            displayResults(wpm);
     });
 }
 
@@ -91,6 +94,9 @@ async function copyToClipboard(textToCopy) {
 }
 
 function displayResults(typingSpeed) {
+
+    clearInterval(wpmIntervalHandler);
+
     $('#typer').val("");
     $('#typer').prop("disabled", true);
     $('#retry-container').toggle(1200);
@@ -116,6 +122,8 @@ $(document).ready(() => {
         startTime = -1;
         characterIndex = 0;
         wordIndex = 0;
+        wpm = 0;
+        wpmIntervalHandler = null;
 
         loadQuote();
 
