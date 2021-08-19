@@ -114,6 +114,7 @@ $(document).ready(() => {
 
         loadQuote();
 
+        $('#stats').text(wpm + "0 wpm");
         $('#retry-container').toggle();
         $('#challenge').fadeTo(0, 1.0);
         $('#typer').prop("disabled", false);
