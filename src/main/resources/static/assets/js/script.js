@@ -4,6 +4,8 @@ let characterIndex = 0;
 let startTime = -1;
 let wordIndex = 0;
 
+let canRetry = false;
+
 function highlightWordUpTo(characterIndex) {
     let correctText = `<span class="color-correct">` + challengeText.substring(0, characterIndex) + `</span>`
     let restText = challengeText.substring(characterIndex, challengeText.length);
@@ -87,7 +89,9 @@ async function copyToClipboard(textToCopy) {
 function displayResults(typingSpeed) {
     $('#typer').val("");
     $('#typer').prop("disabled", true);
-    $('#retry-container').toggle(1200);
+    $('#retry-container').toggle(1200, function() {
+        canRetry = true;
+    });
     $('#challenge').fadeTo(1200, 0.2);
 
     $.post("/post-result?speed=" + typingSpeed, result => {
@@ -95,6 +99,30 @@ function displayResults(typingSpeed) {
         let address = window.location.origin + "/result?id=" + id;
         $('#result_url').val(address);
     });
+
+    // Register key listener for whole page
+    $(document).keypress( (e) => {
+        if(e.which == 13 && canRetry) { // 'Enter' key pressed
+            canRetry = false;
+            retry();
+        }
+    });
+}
+
+function retry() {
+    $('#load-container').removeClass('d-none');
+    $('#typer-container').addClass('d-none');
+
+    startTime = -1;
+    characterIndex = 0;
+    wordIndex = 0;
+
+    loadQuote();
+
+    $('#stats').text("0 wpm");
+    $('#retry-container').toggle();
+    $('#challenge').fadeTo(0, 1.0);
+    $('#typer').prop("disabled", false);
 }
 
 $(document).ready(() => {
@@ -104,19 +132,8 @@ $(document).ready(() => {
     });
 
     $("#retry").on("click", evt => {
-        $('#load-container').removeClass('d-none');
-        $('#typer-container').addClass('d-none');
-
-        startTime = -1;
-        characterIndex = 0;
-        wordIndex = 0;
-
-        loadQuote();
-
-        $('#stats').text("0 wpm");
-        $('#retry-container').toggle();
-        $('#challenge').fadeTo(0, 1.0);
-        $('#typer').prop("disabled", false);
+        canRetry = false;
+        retry();
     });
 
     $("#copy-button").on("click", evt => {
