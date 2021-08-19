@@ -32,7 +32,6 @@
     border-radius: 16px;
 }
 
-
 #retry-container {
     /* background-color: blue; */
     display: none;
@@ -49,4 +48,9 @@ header {
 
 #typer-container {
     max-width: 600px;
+}
+
+#title-link, #title-link:visited, #title-link:hover, #title-link:active {
+    color: var(--bs-light-rgb);
+    text-decoration: none !important;
 }
