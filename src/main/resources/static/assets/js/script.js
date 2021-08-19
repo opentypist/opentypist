@@ -91,7 +91,6 @@ function displayResults(typingSpeed) {
     $('#challenge').fadeTo(1200, 0.2);
 
     $.post("/post-result?speed=" + typingSpeed, result => {
-        console.log(result);
         let id = result.id;
         let address = window.location.origin + "/result?id=" + id;
         $('#result_url').val(address);
@@ -114,7 +113,7 @@ $(document).ready(() => {
 
         loadQuote();
 
-        $('#stats').text(wpm + "0 wpm");
+        $('#stats').text("0 wpm");
         $('#retry-container').toggle();
         $('#challenge').fadeTo(0, 1.0);
         $('#typer').prop("disabled", false);
