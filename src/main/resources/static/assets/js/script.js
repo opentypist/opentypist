@@ -1,7 +1,8 @@
 let challengeText = null;
 let challengeWords = null;
 let characterIndex = 0;
-
+let startTime = -1;
+let wordIndex = 0;
 
 function highlightWordUpTo(characterIndex) {
     let correctText = `<span class="color-correct">` + challengeText.substring(0, characterIndex) + `</span>`
@@ -17,9 +18,6 @@ function updateWordsPerMinute(startTime, wordsTyped) {
 }
 
 function setupTyper() {
-    let startTime = -1;
-    let wordIndex = 0;
-
     let typer = $('#typer');
     typer.on('input', event => {
 
@@ -27,7 +25,6 @@ function setupTyper() {
             startTime = new Date().getTime();
 
         let typingSpeed = updateWordsPerMinute(startTime, wordIndex);
-
 
         // handle backspace
         if (event.originalEvent.inputType === 'deleteContentBackward') {
@@ -111,7 +108,9 @@ $(document).ready(() => {
         $('#load-container').removeClass('d-none');
         $('#typer-container').addClass('d-none');
 
+        startTime = -1;
         characterIndex = 0;
+        wordIndex = 0;
 
         loadQuote();
 
