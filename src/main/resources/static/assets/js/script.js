@@ -12,7 +12,7 @@ function highlightWordUpTo(characterIndex) {
 function updateWordsPerMinute(startTime, wordsTyped) {
     let millis = new Date().getTime() - startTime;
     let wpm = Math.floor(wordsTyped / (millis / (60 * 1000)));
-    $('.stats').text(wpm + " wpm");
+    $('#stats').text(wpm + " wpm");
     return wpm;
 }
 
@@ -48,8 +48,6 @@ function setupTyper() {
 
         // figure out if the word we are typing has an error
         let currentWord = challengeWords[wordIndex];
-        $("#debug").text(currentWord);
-
         let quoteCompleted = currentWord == typer.val() && wordIndex == (challengeWords.length - 1);
         let currentWordHasError = quoteCompleted ? false : currentWord.substring(0, typer.val().length) != typer.val();
         if (currentWordHasError) {
