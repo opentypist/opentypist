@@ -10,10 +10,16 @@ function highlightWordUpTo(characterIndex) {
     $('#challenge').html(correctText + restText);
 }
 
-function updateWordsPerMinute(startTime, wordsTyped) {
+function updateWordsPerMinute(startTime, charTyped) {
     let millis = new Date().getTime() - startTime;
-    let wpm = Math.floor(wordsTyped / (millis / (60 * 1000)));
+    // Average of 5 characters per word
+    let wordsTyped = charTyped / 5;
+    let timePassed = millis / (60 * 1000);
+    let wpm = 0;
+    if(timePassed > 0)
+        wpm = Math.floor(wordsTyped / (millis / (60 * 1000)));
     $('#stats').text(wpm + " wpm");
+
     return wpm;
 }
 
@@ -24,7 +30,7 @@ function setupTyper() {
         if (startTime == -1)
             startTime = new Date().getTime();
 
-        let typingSpeed = updateWordsPerMinute(startTime, wordIndex);
+        let typingSpeed = updateWordsPerMinute(startTime, characterIndex);
 
         // handle backspace
         if (event.originalEvent.inputType === 'deleteContentBackward') {
