@@ -13,6 +13,7 @@ function updateWordsPerMinute(startTime, wordsTyped) {
     let millis = new Date().getTime() - startTime;
     let wpm = Math.floor(wordsTyped / (millis / (60 * 1000)));
     $('.stats').text(wpm + " wpm");
+    return wpm;
 }
 
 function setupTyper() {
@@ -25,7 +26,7 @@ function setupTyper() {
         if (startTime == -1)
             startTime = new Date().getTime();
 
-        updateWordsPerMinute(startTime, wordIndex);
+        let typingSpeed = updateWordsPerMinute(startTime, wordIndex);
 
 
         // handle backspace
@@ -59,7 +60,7 @@ function setupTyper() {
         }
 
         if (quoteCompleted)
-            displayResults();
+            displayResults(typingSpeed);
     });
 }
 
@@ -77,11 +78,29 @@ function loadQuote() {
     });
 }
 
-function displayResults() {
+async function copyToClipboard(textToCopy) {
+    try {
+        // 1) Copy text
+        await navigator.clipboard.writeText(textToCopy);
+
+        // 2) Catch errors
+    } catch (err) {
+        console.error('Failed to copy: ', err);
+    }
+}
+
+function displayResults(typingSpeed) {
     $('#typer').val("");
     $('#typer').prop("disabled", true);
     $('#retry-container').toggle(1200);
     $('#challenge').fadeTo(1200, 0.2);
+
+    $.post("/post-result?speed=" + typingSpeed, result => {
+        console.log(result);
+        let id = result.id;
+        let address = window.location.origin + "/result?id=" + id;
+        $('#result_url').val(address);
+    });
 }
 
 $(document).ready(() => {
@@ -104,4 +123,8 @@ $(document).ready(() => {
         $('#typer').prop("disabled", false);
         $('#typer').focus();
     });
+
+    $("#copy-button").on("click", evt => {
+        copyToClipboard($('#result_url').val());
+    })
 });
