@@ -1,6 +1,5 @@
 package com.opentypist.persist;
 
-import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.Entity;
@@ -20,7 +19,6 @@ public class Result {
     private String name;
 
     @CreationTimestamp
-    @ColumnDefault("CURRENT_TIMESTAMP")
     private Date date;
 
     private Integer speed;

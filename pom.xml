@@ -12,7 +12,6 @@
     <groupId>com.opentypist</groupId>
     <artifactId>opentypist</artifactId>
     <version>1.0-SNAPSHOT</version>
-    <packaging>war</packaging>
 
     <properties>
         <maven.compiler.source>8</maven.compiler.source>
