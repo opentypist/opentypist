@@ -2,26 +2,22 @@ version: "3.7"
 
 services:
   app:
-    depends_on:
-      mysql:
-        condition: service_healthy
+    restart: always
     image: opentypist/opentypist
     ports:
       - 80:8080
     environment:
       MY_USERNAME_MYSQL: root
-      MY_PASSWORD_MYSQL: ${MY_PASSWORD_MYSQL}
+      MY_PASSWORD_MYSQL: test
   mysql:
-    image: mysql:8.0
+    image: mariadb:10.5.8
     ports:
       - 1234:3306
     volumes:
       - opentypist-db:/var/lib/mysql
     environment:
-      MYSQL_ROOT_PASSWORD: ${MY_PASSWORD_MYSQL}
+      MYSQL_ROOT_PASSWORD: test
       MYSQL_DATABASE: opentypist
-    healthcheck:
-      test: "exit 0"
 
 # Top level volumes section that creates the volumes
 volumes:
