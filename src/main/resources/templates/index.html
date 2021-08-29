@@ -5,17 +5,11 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>opentypist</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
-    <script src="https://kit.fontawesome.com/20f5f45034.js" crossorigin="anonymous"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
-    <link href="assets/css/style.css" rel="stylesheet">
+
+    <th:block layout:fragment="includes"></th:block>
 </head>
 <body>
-    <header class="fixed-top bg-primary text-light p-3">
-        <div class="h3 m-0"><a id="title-link" href="/"><i class="fas fa-keyboard"></i> opentypist</a></div>
-    </header>
+    <th:block th:replace="fragments/general.html :: header"></th:block>
     <main class="bg-light container-fluid vh-100 d-flex align-items-center justify-content-center">
         <div id="load-container" class="w-50 d-flex justify-content-center">
             <div class="spinner-border text-secondary" role="status">
@@ -35,11 +29,8 @@
             </div>
         </div>
     </main>
-    <footer class="fixed-bottom p-3 text-center">
-        <a href="https://www.github.com/opentypist" target="_blank"><i class="fab fa-github"></i> Check us out on GitHub</a>
-    </footer>
+    <th:block th:replace="fragments/general.html :: footer"></th:block>
 
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
-    <script src="assets/js/script.js"></script>
+    <th:block layout:fragment="script"></th:block>
 </body>
 </html>

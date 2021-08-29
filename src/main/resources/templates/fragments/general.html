@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>opentypist</title>
+
+    <th:block layout:fragment="includes">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+        <script src="https://kit.fontawesome.com/20f5f45034.js" crossorigin="anonymous"></script>
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+        <link href="assets/css/style.css" rel="stylesheet">
+    </th:block>
+</head>
+<body>
+<header class="fixed-top bg-primary text-light p-3" th:fragment="header">
+    <div class="h3 m-0"><a id="title-link" href="/"><i class="fas fa-keyboard"></i> opentypist</a></div>
+</header>
+<main class="bg-light container-fluid vh-100 d-flex align-items-center justify-content-center">
+    <div id="load-container" class="w-50 d-flex justify-content-center">
+        <div class="spinner-border text-secondary" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+    </div>
+    <div id="typer-container" class="w-50 d-none">
+        <div id="challenge" class="mb-3"></div>
+        <input type="text" class="w-100" id="typer" autofocus>
+        <div id="stats" class="mt-2 text-muted text-center small-text">0 wpm</div>
+        <div id="retry-container">
+            <div class="w-100 h-100 d-flex flex-column align-items-center p-5">
+                <button id="retry" type="button" class="btn btn-secondary w-50">Retry</button>
+                <input id="result_url" type="text" class="w-50">
+                <button id="copy-button" class="btn btn-primary w-50"><i class="fas fa-copy"></i></button>
+            </div>
+        </div>
+    </div>
+</main>
+<footer class="fixed-bottom p-3 text-center" th:fragment="footer">
+    <a href="https://www.github.com/opentypist" target="_blank"><i class="fab fa-github"></i> Check us out on GitHub</a>
+</footer>
+
+<th:block layout:fragment="script">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script src="assets/js/script.js"></script>
+</th:block>
+</body>
+</html>
