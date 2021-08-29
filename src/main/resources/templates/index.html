@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>opentypist</title>
 
-    <th:block layout:fragment="includes"></th:block>
+    <th:block th:include="fragments/general.html :: includes"></th:block>
 </head>
 <body>
     <th:block th:replace="fragments/general.html :: header"></th:block>
@@ -31,6 +31,6 @@
     </main>
     <th:block th:replace="fragments/general.html :: footer"></th:block>
 
-    <th:block layout:fragment="script"></th:block>
+    <th:block th:include="fragments/general.html :: script"></th:block>
 </body>
 </html>
