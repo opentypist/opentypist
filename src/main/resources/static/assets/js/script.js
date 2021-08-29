@@ -1,3 +1,4 @@
+let quote = null;
 let challengeText = null;
 let challengeWords = null;
 let characterIndex = 0;
@@ -79,8 +80,8 @@ function setupTyper() {
 
 function loadQuote() {
     return $.get("api/random", data => {
-
-        console.log(data.quote);
+        console.log(data);
+        quote = data;
         challengeText = data.quote;
         $('#challenge').text(challengeText);
         challengeWords = challengeText.split(" ");
@@ -113,7 +114,7 @@ function displayResults(typingSpeed) {
     });
     $('#challenge').fadeTo(1200, 0.2);
 
-    $.post("/post-result?speed=" + typingSpeed, result => {
+    $.post("/post-result?speed=" + typingSpeed + "&quoteId=" + quote.id, result => {
         let id = result.id;
         let address = window.location.origin + "/result?id=" + id;
         $('#result_url').val(address);

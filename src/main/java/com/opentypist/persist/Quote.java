@@ -12,7 +12,7 @@ public class Quote {
     @Column(length = 1337)
     private String quote;
 
-    public Quote() {}
+    private Quote() {}
 
     public Quote(String quote) {
         this.quote = quote;
@@ -22,15 +22,7 @@ public class Quote {
         return id;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
     public String getQuote() {
         return quote;
-    }
-
-    public void setQuote(String quote) {
-        this.quote = quote;
     }
 }
