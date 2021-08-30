@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>opentypist</title>
+
+    <th:block th:include="fragments/general.html :: includes"></th:block>
+</head>
+<body>
+<th:block th:replace="fragments/general.html :: header"></th:block>
+<main class="bg-light container-fluid vh-100 d-flex flex-column align-items-center justify-content-center">
+    <div id="highscore-quote" class="bg-light mt-3 mb-3">
+        <span th:text="${quoteText}"></span>
+    </div>
+    <table class="table w-50 table-striped">
+        <thead class="bg-secondary text-white">
+        <tr>
+            <th>Name</th>
+            <th>Date</th>
+            <th>WPM</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="result: ${results}">
+            <td th:text="${result.name}" />
+            <td th:text="${result.date}" />
+            <td th:text="${result.speed}" />
+        </tr>
+        </tbody>
+    </table>
+</main>
+<th:block th:replace="fragments/general.html :: footer"></th:block>
+
+<th:block th:include="fragments/general.html :: script"></th:block>
+</body>
+</html>

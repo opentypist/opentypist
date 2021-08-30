@@ -54,3 +54,9 @@ header {
     color: var(--bs-light-rgb);
     text-decoration: none !important;
 }
+
+#highscore-quote {
+    font-size: 1.25em;
+    font-weight: bold;
+    padding: 0.75em;
+}
