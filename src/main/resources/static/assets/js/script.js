@@ -17,6 +17,21 @@ $(document).keypress( (e) => {
     }
 });
 
+function displayLocalHighscore() {
+    let highscore = Cookies.get('local-highscore');
+    console.log('highscore=' + highscore);
+    if (highscore != undefined) {
+        $('#local-highscore').text(highscore);
+        $('#local-highscore-container').removeClass('d-none');
+    }
+}
+
+function updateLocalHighscore(wpm) {
+    let highscore = Cookies.get('local-highscore');
+    if (highscore == undefined || wpm > highscore) {
+        Cookies.set('local-highscore', wpm);
+    }
+}
 
 function highlightWordUpTo(characterIndex) {
     let correctText = `<span class="color-correct">` + challengeText.substring(0, characterIndex) + `</span>`
@@ -120,6 +135,8 @@ function displayResults(typingSpeed) {
         $('#result_url').val(address);
     });
 
+    updateLocalHighscore(typingSpeed);
+    displayLocalHighscore();
 }
 
 function retry() {
@@ -143,6 +160,8 @@ function retry() {
 }
 
 $(document).ready(() => {
+
+    displayLocalHighscore();
 
     loadQuote().done(() => {
         setupTyper();
