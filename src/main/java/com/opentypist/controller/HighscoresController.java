@@ -7,14 +7,16 @@ import com.opentypist.persist.ResultRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-@Controller
+@RestController
 public class HighscoresController {
 
     @Autowired
@@ -35,16 +37,16 @@ public class HighscoresController {
         return mav;
     }
 
-    @GetMapping("/highscores-quote")
-    public ModelAndView highscoresQuote(@RequestParam Integer quoteId) {
+    @GetMapping("/highscores-quote/{id}")
+    public ModelAndView highscoresQuote(@PathVariable Integer id) {
         ModelAndView mav = new ModelAndView("highscores-quote");
 
         List<Result> results = resultRepository.findAll().stream()
-                .filter(result -> result.getQuote() != null && result.getQuote().getId().equals(quoteId))
+                .filter(result -> result.getQuote() != null && result.getQuote().getId().equals(id))
                 .sorted((r1, r2) -> Integer.compare(r2.getSpeed(), r1.getSpeed()))
                 .collect(Collectors.toList());
 
-        Optional<Quote> quote = quoteRepository.findById(quoteId);
+        Optional<Quote> quote = quoteRepository.findById(id);
         String quoteText;
 
         if(quote.isPresent())
